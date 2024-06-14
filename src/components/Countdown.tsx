@@ -1,10 +1,27 @@
-/* src/components/Countdown.jsx */
 import React, { useState, useEffect } from "react";
 
-const Countdown = ({ targetDate, openingDetails }) => {
-  const calculateTimeLeft = () => {
+interface CountdownProps {
+  targetDate: string;
+  openingDetails: {
+    date: string;
+    time: string;
+  };
+}
+
+interface TimeLeft {
+  days?: number;
+  hours?: number;
+  minutes?: number;
+  seconds?: number;
+}
+
+const Countdown: React.FC<CountdownProps> = ({
+  targetDate,
+  openingDetails,
+}) => {
+  const calculateTimeLeft = (): TimeLeft => {
     const difference = +new Date(targetDate) - +new Date();
-    let timeLeft = {};
+    let timeLeft: TimeLeft = {};
 
     if (difference > 0) {
       timeLeft = {
@@ -18,7 +35,7 @@ const Countdown = ({ targetDate, openingDetails }) => {
     return timeLeft;
   };
 
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const [timeLeft, setTimeLeft] = useState<TimeLeft>(calculateTimeLeft());
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -26,18 +43,19 @@ const Countdown = ({ targetDate, openingDetails }) => {
     }, 1000);
 
     return () => clearTimeout(timer);
-  });
+  }, [targetDate]);
 
-  const timerComponents = [];
+  const timerComponents: JSX.Element[] = [];
 
   Object.keys(timeLeft).forEach((interval) => {
-    if (!timeLeft[interval]) {
+    const key = interval as keyof TimeLeft;
+    if (!timeLeft[key]) {
       return;
     }
 
     timerComponents.push(
       <span key={interval} className="countdown-time mx-2">
-        {timeLeft[interval]} {interval}{" "}
+        {timeLeft[key]} {interval}{" "}
       </span>
     );
   });
