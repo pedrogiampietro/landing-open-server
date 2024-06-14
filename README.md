@@ -6,7 +6,7 @@ Bem-vindo ao Tibia Servers Landing Page! Este projeto é uma página de destino 
 
 ## Demonstração
 
-![Screenshot](./path-to-your-screenshot-image.png)
+![Screenshot](./github/onboarding.png)
 
 ## Tecnologias Utilizadas
 
